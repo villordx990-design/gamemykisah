@@ -13,6 +13,8 @@ export default function AdminDashboard() {
     discord_url: '',
     qris_image: '',
     donation_info: '',
+    support_wa_url: '',
+    tutorial_url: '',
   });
   const [bannerFile, setBannerFile] = useState(null);
   const [bgFile, setBgFile] = useState(null);
@@ -56,6 +58,8 @@ export default function AdminDashboard() {
         discord_url: settings.discord_url,
         qris_image,
         donation_info: settings.donation_info,
+        support_wa_url: settings.support_wa_url,
+        tutorial_url: settings.tutorial_url,
       });
       if (error) throw error;
       setSettings((prev) => ({ ...prev, banner_image, background_image, qris_image }));
@@ -111,6 +115,18 @@ export default function AdminDashboard() {
             <label className="text-sm text-gray-400">QRIS Donasi</label>
             <input type="file" accept="image/*" onChange={(e) => setQrisFile(e.target.files[0])} className="block mt-1 text-sm" />
           </div>
+          <input
+            value={settings.support_wa_url || ''}
+            onChange={(e) => setSettings({ ...settings, support_wa_url: e.target.value })}
+            placeholder="Link WA pribadi buat halaman Support (contoh: https://wa.me/62812xxxx)"
+            className="w-full bg-white/10 p-2 rounded-lg text-sm"
+          />
+          <input
+            value={settings.tutorial_url || ''}
+            onChange={(e) => setSettings({ ...settings, tutorial_url: e.target.value })}
+            placeholder="Link Tutorial Download (berlaku buat semua game)"
+            className="w-full bg-white/10 p-2 rounded-lg text-sm"
+          />
           <textarea
             value={settings.donation_info || ''}
             onChange={(e) => setSettings({ ...settings, donation_info: e.target.value })}
