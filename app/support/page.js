@@ -38,9 +38,9 @@ export default function SupportPage() {
         )}
 
         <div className="flex gap-3 mt-8">
-          {settings?.wa_group_url && (
-            <a href={settings.wa_group_url} target="_blank" rel="noreferrer" className="flex-1 bg-green-600 py-2 rounded-xl text-sm font-medium">
-              Grup WA
+          {settings?.support_wa_url && (
+            <a href={settings.support_wa_url} target="_blank" rel="noreferrer" className="flex-1 bg-green-600 py-2 rounded-xl text-sm font-medium">
+              Chat WA
             </a>
           )}
           {settings?.discord_url && (
