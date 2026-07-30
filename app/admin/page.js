@@ -16,7 +16,9 @@ export default function AdminDashboard() {
     support_wa_url: '',
     tutorial_url: '',
     bg_overlay: 60,
+    detail_background_image: '',
   });
+  const [detailBgFile, setDetailBgFile] = useState(null);
   const [bannerFile, setBannerFile] = useState(null);
   const [bgFile, setBgFile] = useState(null);
   const [qrisFile, setQrisFile] = useState(null);
@@ -47,10 +49,12 @@ export default function AdminDashboard() {
     let banner_image = settings.banner_image;
     let background_image = settings.background_image;
     let qris_image = settings.qris_image;
+    let detail_background_image = settings.detail_background_image;
     try {
       if (bannerFile) banner_image = await uploadFile(bannerFile, 'banner');
       if (bgFile) background_image = await uploadFile(bgFile, 'bg');
       if (qrisFile) qris_image = await uploadFile(qrisFile, 'qris');
+      if (detailBgFile) detail_background_image = await uploadFile(detailBgFile, 'detailbg');
       const { error } = await supabase.from('site_settings').upsert({
         id: 1,
         banner_image,
@@ -62,9 +66,10 @@ export default function AdminDashboard() {
         support_wa_url: settings.support_wa_url,
         tutorial_url: settings.tutorial_url,
         bg_overlay: settings.bg_overlay,
+        detail_background_image,
       });
       if (error) throw error;
-      setSettings((prev) => ({ ...prev, banner_image, background_image, qris_image }));
+      setSettings((prev) => ({ ...prev, banner_image, background_image, qris_image, detail_background_image }));
       alert('Pengaturan tersimpan');
     } catch (err) {
       alert('Gagal: ' + err.message);
@@ -98,8 +103,12 @@ export default function AdminDashboard() {
             <input type="file" accept="image/*" onChange={(e) => setBannerFile(e.target.files[0])} className="block mt-1 text-sm" />
           </div>
           <div>
-            <label className="text-sm text-gray-400">Background (foto jejepangan, dsb)</label>
+            <label className="text-sm text-gray-400">Background (foto jejepangan, dsb) — Halaman Utama</label>
             <input type="file" accept="image/*" onChange={(e) => setBgFile(e.target.files[0])} className="block mt-1 text-sm" />
+          </div>
+          <div>
+            <label className="text-sm text-gray-400">Background — Halaman Detail Game (opsional, kalau kosong pakai yang di atas)</label>
+            <input type="file" accept="image/*" onChange={(e) => setDetailBgFile(e.target.files[0])} className="block mt-1 text-sm" />
           </div>
           <input
             value={settings.wa_group_url || ''}
