@@ -16,6 +16,7 @@ function Info({ label, value }) {
 export default function GameDetail() {
   const { slug } = useParams();
   const [game, setGame] = useState(null);
+  const [settings, setSettings] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
@@ -26,6 +27,8 @@ export default function GameDetail() {
         return;
       }
       setGame(data);
+      const { data: s } = await supabase.from('site_settings').select('*').eq('id', 1).single();
+      setSettings(s);
     }
     load();
   }, [slug]);
@@ -65,24 +68,27 @@ export default function GameDetail() {
 
       <div className="space-y-3">
         {game.android_url && (
-          <a href={game.android_url} className="block bg-green-600 text-center py-3 rounded-xl font-semibold">
-            Download Versi Android
+          <a href={game.android_url} className="flex items-center justify-center gap-2 bg-green-600 text-center py-3 rounded-xl font-semibold">
+            <span>Download Versi Android</span>
+            {game.android_size && <span className="text-xs bg-black/20 px-2 py-0.5 rounded-full">{game.android_size}</span>}
           </a>
         )}
         {game.pc_url && (
-          <a href={game.pc_url} className="block bg-blue-600 text-center py-3 rounded-xl font-semibold">
-            Download Versi PC
+          <a href={game.pc_url} className="flex items-center justify-center gap-2 bg-blue-600 text-center py-3 rounded-xl font-semibold">
+            <span>Download Versi PC</span>
+            {game.pc_size && <span className="text-xs bg-black/20 px-2 py-0.5 rounded-full">{game.pc_size}</span>}
           </a>
         )}
         {game.patch_url && (
-          <a href={game.patch_url} className="block bg-purple-600 text-center py-3 rounded-xl font-semibold">
-            Download Patch
+          <a href={game.patch_url} className="flex items-center justify-center gap-2 bg-purple-600 text-center py-3 rounded-xl font-semibold">
+            <span>Download Patch</span>
+            {game.patch_size && <span className="text-xs bg-black/20 px-2 py-0.5 rounded-full">{game.patch_size}</span>}
           </a>
         )}
       </div>
 
-      {game.tutorial_url && (
-        <a href={game.tutorial_url} target="_blank" rel="noreferrer" className="block text-center mt-4 text-brand underline">
+      {settings?.tutorial_url && (
+        <a href={settings.tutorial_url} target="_blank" rel="noreferrer" className="block text-center mt-4 text-brand underline">
           Lihat Tutorial Download & Install
         </a>
       )}
