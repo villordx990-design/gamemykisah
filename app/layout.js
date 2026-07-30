@@ -1,4 +1,5 @@
 import './globals.css';
+import MusicPlayer from './components/MusicPlayer';
 
 export const metadata = {
   title: 'GameMyKisah',
@@ -14,7 +15,10 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="id">
-      <body>{children}</body>
+      <body>
+        {children}
+        <MusicPlayer />
+      </body>
     </html>
   );
 }
