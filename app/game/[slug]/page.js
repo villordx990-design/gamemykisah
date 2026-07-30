@@ -57,7 +57,7 @@ export default function GameDetail() {
 
       <div className="grid grid-cols-2 gap-3 my-4 text-sm">
         <Info label="Developer" value={game.developer} />
-        <Info label="Size" value={game.size} />
+        <Info label="Language" value="English, Indonesia" />
         <Info label="Versi" value={game.version} />
         <Info label="Status" value={game.status} />
         <Info label="Tanggal Rilis" value={game.release_date ? new Date(game.release_date).toLocaleDateString('id-ID') : '-'} />
