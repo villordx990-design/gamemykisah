@@ -54,7 +54,7 @@ export default function HomePage() {
         minHeight: '100vh',
       }}
     >
-      <div className="min-h-screen bg-black/60">
+      <div className="min-h-screen" style={{ backgroundColor: `rgba(0,0,0,${(settings?.bg_overlay ?? 60) / 100})` }}>
         <header className="p-4 flex items-center justify-between bg-black/50 backdrop-blur sticky top-0 z-10 gap-3">
           <h1 className="text-xl font-bold text-brand">GameMyKisah.</h1>
           <input
