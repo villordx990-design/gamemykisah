@@ -11,9 +11,12 @@ export default function AdminDashboard() {
     background_image: '',
     wa_group_url: '',
     discord_url: '',
+    qris_image: '',
+    donation_info: '',
   });
   const [bannerFile, setBannerFile] = useState(null);
   const [bgFile, setBgFile] = useState(null);
+  const [qrisFile, setQrisFile] = useState(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -40,18 +43,22 @@ export default function AdminDashboard() {
     setSaving(true);
     let banner_image = settings.banner_image;
     let background_image = settings.background_image;
+    let qris_image = settings.qris_image;
     try {
       if (bannerFile) banner_image = await uploadFile(bannerFile, 'banner');
       if (bgFile) background_image = await uploadFile(bgFile, 'bg');
+      if (qrisFile) qris_image = await uploadFile(qrisFile, 'qris');
       const { error } = await supabase.from('site_settings').upsert({
         id: 1,
         banner_image,
         background_image,
         wa_group_url: settings.wa_group_url,
         discord_url: settings.discord_url,
+        qris_image,
+        donation_info: settings.donation_info,
       });
       if (error) throw error;
-      setSettings((prev) => ({ ...prev, banner_image, background_image }));
+      setSettings((prev) => ({ ...prev, banner_image, background_image, qris_image }));
       alert('Pengaturan tersimpan');
     } catch (err) {
       alert('Gagal: ' + err.message);
@@ -98,6 +105,17 @@ export default function AdminDashboard() {
             value={settings.discord_url || ''}
             onChange={(e) => setSettings({ ...settings, discord_url: e.target.value })}
             placeholder="Link Discord"
+            className="w-full bg-white/10 p-2 rounded-lg text-sm"
+          />
+          <div>
+            <label className="text-sm text-gray-400">QRIS Donasi</label>
+            <input type="file" accept="image/*" onChange={(e) => setQrisFile(e.target.files[0])} className="block mt-1 text-sm" />
+          </div>
+          <textarea
+            value={settings.donation_info || ''}
+            onChange={(e) => setSettings({ ...settings, donation_info: e.target.value })}
+            placeholder="Catatan donasi (contoh: nama toko QRIS, terima kasih, dll)"
+            rows={3}
             className="w-full bg-white/10 p-2 rounded-lg text-sm"
           />
           <button disabled={saving} className="w-full bg-brand text-black font-semibold py-2 rounded-xl">
