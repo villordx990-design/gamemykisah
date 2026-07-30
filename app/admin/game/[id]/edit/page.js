@@ -78,9 +78,11 @@ export default function EditGame() {
         <input type="file" accept="image/*" onChange={(e) => setCoverFile(e.target.files[0])} className="block mt-1 text-sm" />
       </div>
       <input value={form.android_url || ''} onChange={(e) => setForm({ ...form, android_url: e.target.value })} placeholder="Link Android" className="w-full bg-white/10 p-3 rounded-xl" />
+      <input value={form.android_size || ''} onChange={(e) => setForm({ ...form, android_size: e.target.value })} placeholder="Size Android (contoh: 1GB)" className="w-full bg-white/10 p-3 rounded-xl" />
       <input value={form.pc_url || ''} onChange={(e) => setForm({ ...form, pc_url: e.target.value })} placeholder="Link PC" className="w-full bg-white/10 p-3 rounded-xl" />
+      <input value={form.pc_size || ''} onChange={(e) => setForm({ ...form, pc_size: e.target.value })} placeholder="Size PC (contoh: 2.5GB)" className="w-full bg-white/10 p-3 rounded-xl" />
       <input value={form.patch_url || ''} onChange={(e) => setForm({ ...form, patch_url: e.target.value })} placeholder="Link Patch" className="w-full bg-white/10 p-3 rounded-xl" />
-      <input value={form.tutorial_url || ''} onChange={(e) => setForm({ ...form, tutorial_url: e.target.value })} placeholder="Link Tutorial" className="w-full bg-white/10 p-3 rounded-xl" />
+      <input value={form.patch_size || ''} onChange={(e) => setForm({ ...form, patch_size: e.target.value })} placeholder="Size Patch (contoh: 150MB)" className="w-full bg-white/10 p-3 rounded-xl" />
       <button disabled={saving} className="w-full bg-brand text-black font-semibold py-3 rounded-xl">
         {saving ? 'Menyimpan...' : 'Update Game'}
       </button>
