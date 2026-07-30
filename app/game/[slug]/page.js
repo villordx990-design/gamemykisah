@@ -36,12 +36,28 @@ export default function GameDetail() {
   return (
     <div className="max-w-xl mx-auto p-4">
       <img src={game.cover_image} alt={game.name} className="w-full rounded-2xl mb-4 object-cover max-h-72" />
-      <h1 className="text-2xl font-bold">{game.name}</h1>
+
+      <div className="flex items-center gap-2 mb-1">
+        <h1 className="text-2xl font-bold">{game.name}</h1>
+        {game.label && game.label !== '-' && (
+          <span className="text-xs bg-brand text-black font-bold px-2 py-1 rounded-full">{game.label}</span>
+        )}
+      </div>
+
+      {game.genre && (
+        <div className="flex flex-wrap gap-2 mb-3">
+          {game.genre.split(',').map((g) => (
+            <span key={g} className="text-xs bg-white/10 px-2 py-1 rounded-full text-gray-300">{g.trim()}</span>
+          ))}
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-3 my-4 text-sm">
         <Info label="Developer" value={game.developer} />
         <Info label="Size" value={game.size} />
         <Info label="Versi" value={game.version} />
+        <Info label="Status" value={game.status} />
+        <Info label="Tanggal Rilis" value={game.release_date ? new Date(game.release_date).toLocaleDateString('id-ID') : '-'} />
         <Info label="Diupload" value={new Date(game.created_at).toLocaleDateString('id-ID')} />
       </div>
 
