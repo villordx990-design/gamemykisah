@@ -18,6 +18,7 @@ export default function GameDetail() {
   const [game, setGame] = useState(null);
   const [settings, setSettings] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -50,15 +51,19 @@ export default function GameDetail() {
           src={bgUrl}
           className="fixed inset-0 w-full h-full object-cover -z-20"
         />
-      ) : (
-        <div
-          className="fixed inset-0 -z-20"
-          style={{
-            backgroundImage: bgUrl ? `url(${bgUrl})` : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
+      ) : bgUrl ? (
+        <img
+          src={bgUrl}
+          alt=""
+          onError={() => setImgFailed(true)}
+          onLoad={() => setImgFailed(false)}
+          className="fixed inset-0 w-full h-full object-cover -z-20"
         />
+      ) : null}
+      {imgFailed && (
+        <div className="fixed top-16 left-0 right-0 z-50 bg-red-600 text-white text-xs p-2 text-center">
+          Gagal load gambar background (link rusak/kena block)
+        </div>
       )}
       <div
         className="fixed inset-0 -z-10"
