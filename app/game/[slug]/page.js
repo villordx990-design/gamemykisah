@@ -39,7 +39,7 @@ export default function GameDetail() {
   return (
     <div
       style={{
-        backgroundImage: settings?.background_image ? `url(${settings.background_image})` : undefined,
+        backgroundImage: (settings?.detail_background_image || settings?.background_image) ? `url(${settings.detail_background_image || settings.background_image})` : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
