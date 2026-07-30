@@ -15,6 +15,7 @@ export default function AdminDashboard() {
     donation_info: '',
     support_wa_url: '',
     tutorial_url: '',
+    bg_overlay: 60,
   });
   const [bannerFile, setBannerFile] = useState(null);
   const [bgFile, setBgFile] = useState(null);
@@ -60,6 +61,7 @@ export default function AdminDashboard() {
         donation_info: settings.donation_info,
         support_wa_url: settings.support_wa_url,
         tutorial_url: settings.tutorial_url,
+        bg_overlay: settings.bg_overlay,
       });
       if (error) throw error;
       setSettings((prev) => ({ ...prev, banner_image, background_image, qris_image }));
@@ -127,6 +129,17 @@ export default function AdminDashboard() {
             placeholder="Link Tutorial Download (berlaku buat semua game)"
             className="w-full bg-white/10 p-2 rounded-lg text-sm"
           />
+          <div>
+            <label className="text-sm text-gray-400">Tingkat Kegelapan Background: {settings.bg_overlay ?? 60}%</label>
+            <input
+              type="range"
+              min="0"
+              max="90"
+              value={settings.bg_overlay ?? 60}
+              onChange={(e) => setSettings({ ...settings, bg_overlay: Number(e.target.value) })}
+              className="w-full mt-1"
+            />
+          </div>
           <textarea
             value={settings.donation_info || ''}
             onChange={(e) => setSettings({ ...settings, donation_info: e.target.value })}
