@@ -11,6 +11,8 @@ export default function HomePage() {
   const [activeGenre, setActiveGenre] = useState('Semua');
   const [showGenreModal, setShowGenreModal] = useState(false);
   const [genreSearch, setGenreSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const PER_PAGE = 6;
 
   useEffect(() => {
     async function load() {
@@ -33,6 +35,14 @@ export default function HomePage() {
     const matchGenre = activeGenre === 'Semua' || (g.genre && g.genre.split(',').map((x) => x.trim()).includes(activeGenre));
     return matchSearch && matchGenre;
   });
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const currentPage = Math.min(page, totalPages);
+  const paginated = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search, activeGenre]);
 
   return (
     <div
@@ -129,7 +139,7 @@ export default function HomePage() {
         )}
 
         <main className="grid grid-cols-2 gap-4 p-4">
-          {filtered.map((game) => (
+          {paginated.map((game) => (
             <Link key={game.id} href={`/game/${game.slug}`} className="relative bg-white/5 rounded-2xl p-3 hover:bg-white/10 transition">
               {game.label && game.label !== '-' && (
                 <span className="absolute top-2 left-2 text-[10px] bg-brand text-black font-bold px-2 py-0.5 rounded-full z-10">{game.label}</span>
@@ -143,6 +153,34 @@ export default function HomePage() {
             <p className="col-span-2 text-center text-gray-400 py-10">Belum ada game.</p>
           )}
         </main>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 pb-8">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-2 rounded-lg text-sm bg-white/10 disabled:opacity-30"
+            >
+              ‹ Prev
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+              <button
+                key={n}
+                onClick={() => setPage(n)}
+                className={`w-9 h-9 rounded-lg text-sm ${currentPage === n ? 'bg-brand text-black font-semibold' : 'bg-white/10 text-gray-300'}`}
+              >
+                {n}
+              </button>
+            ))}
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="px-3 py-2 rounded-lg text-sm bg-white/10 disabled:opacity-30"
+            >
+              Next ›
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
