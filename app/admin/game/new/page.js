@@ -20,6 +20,10 @@ export default function NewGame() {
     size: '',
     version: '',
     synopsis: '',
+    genre: '',
+    status: 'Ongoing',
+    label: '-',
+    release_date: '',
     android_url: '',
     pc_url: '',
     patch_url: '',
@@ -57,6 +61,29 @@ export default function NewGame() {
       <input placeholder="Size (contoh: 250 MB)" value={form.size} onChange={(e) => setForm({ ...form, size: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
       <input placeholder="Versi (contoh: 1.0.2)" value={form.version} onChange={(e) => setForm({ ...form, version: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
       <textarea placeholder="Sinopsis" value={form.synopsis} onChange={(e) => setForm({ ...form, synopsis: e.target.value })} rows={4} className="w-full bg-white/10 p-3 rounded-xl" />
+      <input placeholder="Genre (pisah pakai koma, contoh: Romance, School, Visual Novel)" value={form.genre} onChange={(e) => setForm({ ...form, genre: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
+      <div>
+        <label className="text-sm text-gray-400">Status</label>
+        <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl mt-1">
+          <option value="Ongoing">Ongoing</option>
+          <option value="Completed">Completed</option>
+          <option value="Hiatus">Hiatus</option>
+          <option value="Dropped">Dropped</option>
+        </select>
+      </div>
+      <div>
+        <label className="text-sm text-gray-400">Label</label>
+        <select value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl mt-1">
+          <option value="-">Tanpa label</option>
+          <option value="New">New</option>
+          <option value="Update">Update</option>
+          <option value="Hot">Hot</option>
+        </select>
+      </div>
+      <div>
+        <label className="text-sm text-gray-400">Tanggal Rilis</label>
+        <input type="date" value={form.release_date} onChange={(e) => setForm({ ...form, release_date: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl mt-1" />
+      </div>
       <div>
         <label className="text-sm text-gray-400">Cover Game</label>
         <input type="file" accept="image/*" onChange={(e) => setCoverFile(e.target.files[0])} className="block mt-1 text-sm" />
