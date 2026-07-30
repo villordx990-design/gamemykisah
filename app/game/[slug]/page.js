@@ -66,6 +66,9 @@ export default function GameDetail() {
       />
 
       <div className="relative max-w-xl mx-auto p-4">
+        <div className="bg-yellow-500 text-black text-[10px] p-2 rounded mb-2 break-all">
+          DEBUG bgUrl: {String(bgUrl)} | overlay: {String(settings?.bg_overlay)}
+        </div>
         <img src={game.cover_image} alt={game.name} className="w-full rounded-2xl mb-4 object-cover max-h-72" />
 
         <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-4">
