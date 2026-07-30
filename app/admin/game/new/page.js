@@ -25,9 +25,11 @@ export default function NewGame() {
     label: '-',
     release_date: '',
     android_url: '',
+    android_size: '',
     pc_url: '',
+    pc_size: '',
     patch_url: '',
-    tutorial_url: '',
+    patch_size: '',
   });
   const [coverFile, setCoverFile] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -89,9 +91,11 @@ export default function NewGame() {
         <input type="file" accept="image/*" onChange={(e) => setCoverFile(e.target.files[0])} className="block mt-1 text-sm" />
       </div>
       <input placeholder="Link Download Android" value={form.android_url} onChange={(e) => setForm({ ...form, android_url: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
+      <input placeholder="Size Android (contoh: 1GB)" value={form.android_size} onChange={(e) => setForm({ ...form, android_size: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
       <input placeholder="Link Download PC" value={form.pc_url} onChange={(e) => setForm({ ...form, pc_url: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
+      <input placeholder="Size PC (contoh: 2.5GB)" value={form.pc_size} onChange={(e) => setForm({ ...form, pc_size: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
       <input placeholder="Link Download Patch" value={form.patch_url} onChange={(e) => setForm({ ...form, patch_url: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
-      <input placeholder="Link Tutorial (YouTube/artikel)" value={form.tutorial_url} onChange={(e) => setForm({ ...form, tutorial_url: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
+      <input placeholder="Size Patch (contoh: 150MB)" value={form.patch_size} onChange={(e) => setForm({ ...form, patch_size: e.target.value })} className="w-full bg-white/10 p-3 rounded-xl" />
       <button disabled={saving} className="w-full bg-brand text-black font-semibold py-3 rounded-xl">
         {saving ? 'Menyimpan...' : 'Simpan Game'}
       </button>
