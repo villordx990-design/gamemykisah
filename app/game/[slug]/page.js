@@ -49,7 +49,7 @@ export default function GameDetail() {
           loop
           playsInline
           src={bgUrl}
-          className="fixed inset-0 w-full h-full object-cover -z-20"
+          className="fixed inset-0 w-full h-full object-cover z-0"
         />
       ) : bgUrl ? (
         <img
@@ -57,7 +57,7 @@ export default function GameDetail() {
           alt=""
           onError={() => setImgFailed(true)}
           onLoad={() => setImgFailed(false)}
-          className="fixed inset-0 w-full h-full object-cover -z-20"
+          className="fixed inset-0 w-full h-full object-cover z-0"
         />
       ) : null}
       {imgFailed && (
@@ -66,11 +66,11 @@ export default function GameDetail() {
         </div>
       )}
       <div
-        className="fixed inset-0 -z-10"
+        className="fixed inset-0 z-0"
         style={{ backgroundColor: `rgba(0,0,0,${(settings?.bg_overlay ?? 60) / 100})` }}
       />
 
-      <div className="relative max-w-xl mx-auto p-4">
+      <div className="relative z-10 max-w-xl mx-auto p-4">
         <div className="bg-yellow-500 text-black text-[10px] p-2 rounded mb-2 break-all">
           DEBUG bgUrl: {String(bgUrl)} | overlay: {String(settings?.bg_overlay)}
         </div>
