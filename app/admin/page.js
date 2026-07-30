@@ -17,8 +17,10 @@ export default function AdminDashboard() {
     tutorial_url: '',
     bg_overlay: 60,
     detail_background_image: '',
+    bg_music_url: '',
   });
   const [detailBgFile, setDetailBgFile] = useState(null);
+  const [musicFile, setMusicFile] = useState(null);
   const [bannerFile, setBannerFile] = useState(null);
   const [bgFile, setBgFile] = useState(null);
   const [qrisFile, setQrisFile] = useState(null);
@@ -50,11 +52,13 @@ export default function AdminDashboard() {
     let background_image = settings.background_image;
     let qris_image = settings.qris_image;
     let detail_background_image = settings.detail_background_image;
+    let bg_music_url = settings.bg_music_url;
     try {
       if (bannerFile) banner_image = await uploadFile(bannerFile, 'banner');
       if (bgFile) background_image = await uploadFile(bgFile, 'bg');
       if (qrisFile) qris_image = await uploadFile(qrisFile, 'qris');
       if (detailBgFile) detail_background_image = await uploadFile(detailBgFile, 'detailbg');
+      if (musicFile) bg_music_url = await uploadFile(musicFile, 'music');
       const { error } = await supabase.from('site_settings').upsert({
         id: 1,
         banner_image,
@@ -67,9 +71,10 @@ export default function AdminDashboard() {
         tutorial_url: settings.tutorial_url,
         bg_overlay: settings.bg_overlay,
         detail_background_image,
+        bg_music_url,
       });
       if (error) throw error;
-      setSettings((prev) => ({ ...prev, banner_image, background_image, qris_image, detail_background_image }));
+      setSettings((prev) => ({ ...prev, banner_image, background_image, qris_image, detail_background_image, bg_music_url }));
       alert('Pengaturan tersimpan');
     } catch (err) {
       alert('Gagal: ' + err.message);
@@ -108,7 +113,11 @@ export default function AdminDashboard() {
           </div>
           <div>
             <label className="text-sm text-gray-400">Background — Halaman Detail Game (opsional, kalau kosong pakai yang di atas)</label>
-            <input type="file" accept="image/*" onChange={(e) => setDetailBgFile(e.target.files[0])} className="block mt-1 text-sm" />
+            <input type="file" accept="image/*,video/mp4,video/webm" onChange={(e) => setDetailBgFile(e.target.files[0])} className="block mt-1 text-sm" />
+          </div>
+          <div>
+            <label className="text-sm text-gray-400">Musik Latar (mp3) — muncul tombol play di web</label>
+            <input type="file" accept="audio/*" onChange={(e) => setMusicFile(e.target.files[0])} className="block mt-1 text-sm" />
           </div>
           <input
             value={settings.wa_group_url || ''}
