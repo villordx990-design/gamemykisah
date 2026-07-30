@@ -9,6 +9,8 @@ export default function HomePage() {
   const [games, setGames] = useState([]);
   const [search, setSearch] = useState('');
   const [activeGenre, setActiveGenre] = useState('Semua');
+  const [showGenreModal, setShowGenreModal] = useState(false);
+  const [genreSearch, setGenreSearch] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -23,6 +25,8 @@ export default function HomePage() {
   const allGenres = Array.from(
     new Set(games.flatMap((g) => (g.genre ? g.genre.split(',').map((x) => x.trim()) : [])))
   ).filter(Boolean);
+
+  const genreOptions = allGenres.filter((g) => g.toLowerCase().includes(genreSearch.toLowerCase()));
 
   const filtered = games.filter((g) => {
     const matchSearch = g.name.toLowerCase().includes(search.toLowerCase());
@@ -72,18 +76,55 @@ export default function HomePage() {
         </div>
 
         {allGenres.length > 0 && (
-          <div className="flex gap-2 overflow-x-auto px-4 mt-4 pb-1">
-            {['Semua', ...allGenres].map((g) => (
-              <button
-                key={g}
-                onClick={() => setActiveGenre(g)}
-                className={`whitespace-nowrap text-xs px-3 py-1.5 rounded-full border ${
-                  activeGenre === g ? 'bg-brand text-black border-brand font-semibold' : 'border-white/20 text-gray-300'
-                }`}
-              >
-                {g}
-              </button>
-            ))}
+          <div className="px-4 mt-4">
+            <button
+              onClick={() => setShowGenreModal(true)}
+              className="w-full flex items-center justify-between bg-white/10 px-4 py-2.5 rounded-xl text-sm"
+            >
+              <span>Genre: <span className="text-brand font-medium">{activeGenre}</span></span>
+              <span className="text-gray-400">▾</span>
+            </button>
+          </div>
+        )}
+
+        {showGenreModal && (
+          <div className="fixed inset-0 z-50 bg-black/70 flex items-end" onClick={() => setShowGenreModal(false)}>
+            <div
+              className="bg-[#111815] w-full max-h-[75vh] rounded-t-2xl p-4 flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold">Pilih Genre</h3>
+                <button onClick={() => setShowGenreModal(false)} className="text-gray-400 text-xl leading-none">×</button>
+              </div>
+              <input
+                autoFocus
+                value={genreSearch}
+                onChange={(e) => setGenreSearch(e.target.value)}
+                placeholder="Cari genre..."
+                className="bg-white/10 px-4 py-2 rounded-full text-sm mb-3"
+              />
+              <div className="overflow-y-auto space-y-1">
+                <button
+                  onClick={() => { setActiveGenre('Semua'); setShowGenreModal(false); setGenreSearch(''); }}
+                  className={`w-full text-left px-3 py-2.5 rounded-xl text-sm ${activeGenre === 'Semua' ? 'bg-brand text-black font-semibold' : 'hover:bg-white/5'}`}
+                >
+                  Semua Genre
+                </button>
+                {genreOptions.map((g) => (
+                  <button
+                    key={g}
+                    onClick={() => { setActiveGenre(g); setShowGenreModal(false); setGenreSearch(''); }}
+                    className={`w-full text-left px-3 py-2.5 rounded-xl text-sm ${activeGenre === g ? 'bg-brand text-black font-semibold' : 'hover:bg-white/5'}`}
+                  >
+                    {g}
+                  </button>
+                ))}
+                {genreOptions.length === 0 && (
+                  <p className="text-gray-500 text-sm text-center py-4">Genre tidak ditemukan.</p>
+                )}
+              </div>
+            </div>
           </div>
         )}
 
