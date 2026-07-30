@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
@@ -13,6 +13,18 @@ export default function HomePage() {
   const [genreSearch, setGenreSearch] = useState('');
   const [page, setPage] = useState(1);
   const PER_PAGE = 6;
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  function toggleMusic() {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(() => {});
+    }
+    setIsPlaying(!isPlaying);
+  }
 
   useEffect(() => {
     async function load() {
@@ -180,6 +192,19 @@ export default function HomePage() {
               Next ›
             </button>
           </div>
+        )}
+
+        {settings?.bg_music_url && (
+          <>
+            <audio ref={audioRef} src={settings.bg_music_url} loop />
+            <button
+              onClick={toggleMusic}
+              className="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-brand text-black shadow-lg flex items-center justify-center text-2xl"
+              aria-label="Putar/berhenti musik"
+            >
+              {isPlaying ? '⏸' : '♪'}
+            </button>
+          </>
         )}
       </div>
     </div>
